@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, ForeignKey
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
+from fastapi.middleware.cors import CORSMiddleware
 
 # --- Database Setup ---
 DATABASE_URL = "sqlite:///database.db"
@@ -52,6 +53,14 @@ class QuantityUpdate(BaseModel):
 
 # --- App Init ---
 app = FastAPI(title="Grocery Inventory Management")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # --- Utility ---
 def get_db():
